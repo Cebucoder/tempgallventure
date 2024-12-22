@@ -37,15 +37,15 @@ Paste the following HTML into your project and modify the `src` attribute of the
     <!-- Add your image sources here -->
     <!-- If you forget to set an image alt value, it will automatically default to "image" -->
 
-    <li> <figure> <img src="images/sampleImg.jpg" alt="" /> </figure> </li>
-    <li> <figure> <img src="images/sampleImg2.jpg" alt="" /> </figure> </li>
-    <li> <figure> <img src="images/sampleImg3.jpg" alt="" /> </figure> </li>
-    <li> <figure> <img src="images/sampleImg4.jpg" alt="" /> </figure> </li>
-    <li> <figure> <img src="images/sampleImg5.jpg" alt="" /> </figure> </li>
-    <li> <figure> <img src="images/sampleImg6.jpg" alt="" /> </figure> </li>
-    <li> <figure> <img src="images/sampleImg7.jpg" alt="" /> </figure> </li>
-    <li> <figure> <img src="images/sampleImg8.jpg" alt="" /> </figure> </li>
-    <li> <figure> <img src="images/sampleImg9.jpg" alt="" /> </figure> </li>
+    <li> <figure> <img src="https://cebucoder.github.io/tempgallventure/images/sampleImg.jpg" alt="" /> </figure> </li>
+    <li> <figure> <img src="https://cebucoder.github.io/tempgallventure/images/sampleImg2.jpg" alt="" /> </figure> </li>
+    <li> <figure> <img src="https://cebucoder.github.io/tempgallventure/images/sampleImg3.jpg" alt="" /> </figure> </li>
+    <li> <figure> <img src="https://cebucoder.github.io/tempgallventure/images/sampleImg4.jpg" alt="" /> </figure> </li>
+    <li> <figure> <img src="https://cebucoder.github.io/tempgallventure/images/sampleImg5.jpg" alt="" /> </figure> </li>
+    <li> <figure> <img src="https://cebucoder.github.io/tempgallventure/images/sampleImg6.jpg" alt="" /> </figure> </li>
+    <li> <figure> <img src="https://cebucoder.github.io/tempgallventure/images/sampleImg7.jpg" alt="" /> </figure> </li>
+    <li> <figure> <img src="https://cebucoder.github.io/tempgallventure/images/sampleImg8.jpg" alt="" /> </figure> </li>
+    <li> <figure> <img src="https://cebucoder.github.io/tempgallventure/images/sampleImg9.jpg" alt="" /> </figure> </li>
   </ul>
 
   <div class="proweaver_gall_viewer_con">
