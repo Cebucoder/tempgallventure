@@ -1,35 +1,35 @@
-ProvGallery: A Lightweight Image Gallery Tool
+# ProvGallery: A Lightweight Image Gallery Tool
 
-Welcome to ProvGallery, a simple and efficient tool for creating responsive image galleries. This guide will walk you through how to set up and use ProvGallery in your project.
+Welcome to **ProvGallery**, a simple and efficient tool for creating responsive image galleries. This guide will walk you through how to set up and use ProvGallery in your project.
 
-Features
+---
 
-Responsive design for a seamless experience on any device.
+## Features
+- Responsive design for a seamless experience on any device.
+- Zoom functionality for viewing images in detail.
+- Image navigation with next/previous controls.
+- Thumbnail viewer for quick image selection.
+- Automatically sets the `alt` attribute to "image" if omitted.
 
-Zoom functionality for viewing images in detail.
+---
 
-Image navigation with next/previous controls.
+## How to Use
 
-Thumbnail viewer for quick image selection.
-
-Automatically sets the alt attribute to "image" if omitted.
-
-How to Use
-
-Step 1: Include the CSS and JS Files
-
+### Step 1: Include the CSS and JS Files
 Add the following lines to your HTML to include the required CSS and JavaScript files via CDN:
 
+```html
 <!-- CSS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Cebucoder/tempgallventure/css/prov_gal_style.min.css">
 
 <!-- JavaScript -->
 <script src="https://cdn.jsdelivr.net/gh/Cebucoder/tempgallventure/js/prov_gal_script.min.js"></script>
+```
 
-Step 2: Copy the HTML Structure
+### Step 2: Copy the HTML Structure
+Paste the following HTML into your project and modify the `src` attribute of the `<img>` tags to point to your image files.
 
-Paste the following HTML into your project and modify the src attribute of the <img> tags to point to your image files.
-
+```html
 <!-- START OF PROVGALL -->
 <div class="proweaver_gallery_con">
   <ul id="proweaver_gallery_list" class="proweaver_gallery_list">
@@ -57,7 +57,7 @@ Paste the following HTML into your project and modify the src attribute of the <
         <div class="proweaver_header_left_con">
           <div class="prov_image_sizer">
             <span title="Zoom" class="zoom_function">
-              <ion-icon name="search-outline"></ion-icon>
+              <ion-icon name="search-outline"></ion-icon> 
               <ion-icon class="zoom_plus" name="add-outline"></ion-icon>
             </span>
             <select name="" id="prov_zooming_selector">
@@ -97,27 +97,28 @@ Paste the following HTML into your project and modify the src attribute of the <
   </div>
 </div>
 <!-- END OF PROVGALL -->
+```
 
-Step 3: Customize the Image Gallery
+### Step 3: Customize the Image Gallery
+1. **Change the Image Source**:
+   - Replace `images/sampleImg.jpg` with the path to your image files.
+   - Example:
+     ```html
+     <li> <figure> <img src="path/to/your/image.jpg" alt="Description of the image" /> </figure> </li>
+     ```
 
-Change the Image Source:
+2. **Add Alt Text** (Optional):
+   - Provide meaningful descriptions for better accessibility and SEO. If left empty, the `alt` attribute will default to "image."
 
-Replace images/sampleImg.jpg with the path to your image files.
+---
 
-Example:
-
-<li> <figure> <img src="path/to/your/image.jpg" alt="Description of the image" /> </figure> </li>
-
-Add Alt Text (Optional):
-
-Provide meaningful descriptions for better accessibility and SEO. If left empty, the alt attribute will default to "image."
-
-License
-
+## License
 ProvGallery is distributed under the MIT License. You are free to use, modify, and distribute it as needed.
 
-Support
+---
 
-If you encounter any issues or have questions, please visit the GitHub repository for more information or to open an issue.
+## Support
+If you encounter any issues or have questions, please visit the [GitHub repository](https://github.com/Cebucoder/tempgallventure) for more information or to open an issue.
 
 Happy coding!
+
