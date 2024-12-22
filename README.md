@@ -1,6 +1,6 @@
-# ProvGallery: A Lightweight Image Gallery Tool
+# TempGallVenture / Template Gallery Ventures
 
-Welcome to **ProvGallery**, a simple and efficient tool for creating responsive image galleries. This guide will walk you through how to set up and use ProvGallery in your project.
+Welcome to **TempGallVenture**, a simple and efficient tool for creating responsive image galleries. This guide will walk you through how to set up and use TempGallVenture in your project.
 
 ---
 
@@ -24,15 +24,20 @@ Add the following lines to your HTML to include the required CSS and JavaScript 
 
 <!-- JavaScript -->
 <script src="https://cdn.jsdelivr.net/gh/Cebucoder/tempgallventure/js/prov_gal_script.min.js"></script>
+
 <!-- JQUERY -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+<!-- Ion icons -->
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 ```
 
 ### Step 2: Copy the HTML Structure
 Paste the following HTML into your project and modify the `src` attribute of the `<img>` tags to point to your image files.
 
 ```html
-<!-- START OF PROVGALL -->
+<!-- START OF TEMPGALLVENTURE -->
 <div class="proweaver_gallery_con">
   <ul id="proweaver_gallery_list" class="proweaver_gallery_list">
 
@@ -98,7 +103,7 @@ Paste the following HTML into your project and modify the `src` attribute of the
     </div>
   </div>
 </div>
-<!-- END OF PROVGALL -->
+<!-- END OF TEMPGALLVENTURE -->
 ```
 
 ### Step 3: Customize the Image Gallery
@@ -115,7 +120,7 @@ Paste the following HTML into your project and modify the `src` attribute of the
 ---
 
 ## License
-ProvGallery is distributed under the MIT License. You are free to use, modify, and distribute it as needed.
+TempGallVenture is distributed under the MIT License. You are free to use, modify, and distribute it as needed.
 
 ---
 
