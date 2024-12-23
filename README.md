@@ -54,54 +54,6 @@ Paste the following HTML into your project and modify the `src` attribute of the
     <li> <figure> <img src="https://cebucoder.github.io/tempgallventure/images/sampleImg8.jpg" alt="" /> </figure> </li>
     <li> <figure> <img src="https://cebucoder.github.io/tempgallventure/images/sampleImg9.jpg" alt="" /> </figure> </li>
   </ul>
-
-  <div class="proweaver_gall_viewer_con">
-    <div class="proweaver_gall_holder">
-      <div class="proweaver_gall_header">
-        <div id="pro_gallery_counterList" class="proweaver_header_right_con">
-          <span id="prov_current_gallery_show">0</span>/<span id="prov_total_gall_list">0</span>
-        </div>
-        <div class="proweaver_header_left_con">
-          <div class="prov_image_sizer">
-            <span title="Zoom" class="zoom_function">
-              <ion-icon name="search-outline"></ion-icon> 
-              <ion-icon class="zoom_plus" name="add-outline"></ion-icon>
-            </span>
-            <select name="" id="prov_zooming_selector">
-              <option value="100%">100%</option>
-              <option value="90%">90%</option>
-              <option value="80%">80%</option>
-            </select>
-          </div>
-          <div title="Gallery" id="prov_view_min_gallery" class="prov_view_min_gallery">
-            <ion-icon name="grid-outline"></ion-icon>
-          </div>
-          <div title="Close" id="prov_gall_close" class="prov_gall_close">
-            <ion-icon name="close-outline"></ion-icon>
-          </div>
-        </div>
-      </div>
-
-      <div class="proweaver_gall_img_viewer">
-        <figure>
-          <img id="gallery_img_id_viewer" class="zoom" src="" alt="">
-        </figure>
-      </div>
-
-      <div class="prov_gallery_controller">
-        <div class="prov_conroller prov_prev">
-          <ion-icon name="chevron-back-outline"></ion-icon>
-        </div>
-        <div class="prov_conroller prov_next">
-          <ion-icon name="chevron-forward-outline"></ion-icon>
-        </div>
-      </div>
-    </div>
-
-    <div id="prov_min_gall_list" class="prov_min_gall_list">
-      <ul id="prov_thumb_list" class="prov_thumb_list"></ul>
-    </div>
-  </div>
 </div>
 <!-- END OF TEMPGALLVENTURE -->
 ```
