@@ -13,6 +13,56 @@ document.addEventListener("DOMContentLoaded", function () {
     let isImageClicked = false; // Flag to enable/disable wheel navigation
 
 
+    // Create Viewer if it doesn't exist
+    function createViewer() {
+        if (!document.querySelector('.proweaver_gall_viewer_con')) {
+            const viewerHTML = `
+      <div class="proweaver_gall_viewer_con">
+        <div class="proweaver_gall_holder">
+            <div class="proweaver_gall_header">
+                <div id="pro_gallery_counterList" class="proweaver_header_right_con"><span id="prov_current_gallery_show">0</span>/<span id="prov_total_gall_list">0</span></div>
+                <div class="proweaver_header_left_con">
+                    <div class="prov_image_sizer">
+                        <span title="Zoom" class="zoom_function"><ion-icon name="search-outline"></ion-icon> <ion-icon class="zoom_plus" name="add-outline"></ion-icon></span>
+                        <select name="" id="prov_zooming_selector">
+                            <option value="100%">100%</option>
+                            <option value="90%">90%</option>
+                            <option value="80%">80%</option>
+                        </select>
+                    </div>
+                    <div title="Gallery" id="prov_view_min_gallery"  class="prov_view_min_gallery"><ion-icon name="grid-outline"></ion-icon></div>
+                    <div title="Close" id="prov_gall_close" class="prov_gall_close"><ion-icon name="close-outline"></ion-icon></div>
+                </div>
+            </div>
+            <div class="proweaver_gall_img_viewer">
+                <figure>
+                    <img id="gallery_img_id_viewer" class="zoom" src="" alt="">
+                </figure>
+            </div>
+            <div class="prov_gallery_controller">
+              <div class="prov_conroller prov_prev"><ion-icon name="chevron-back-outline"></ion-icon></div>
+              <div class="prov_conroller prov_next"><ion-icon name="chevron-forward-outline"></ion-icon></div>
+          </div>
+        </div>
+        <div id="prov_min_gall_list" class="prov_min_gall_list">
+            <ul id="prov_thumb_list" class="prov_thumb_list">
+                
+            </ul>
+        </div>
+      </div>`;
+            // Find the gallery list element
+            const galleryListCon = document.getElementById('proweaver_gallery_list');
+
+            // Append viewerHTML right after the gallery list
+            galleryListCon.insertAdjacentHTML('afterend', viewerHTML);
+        }
+    }
+
+    // Initialize Viewer
+    createViewer();
+
+
+
     proweaverGalleryList.forEach((galleryItems, index) => {
         console.log(index + 1)
         galleryItems.id = `galleryItems-${index + 1}`;//add id's on each img 
@@ -56,6 +106,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         highlightMatchingThumbnail(galleryItemsImg.src); // Call your highlight function
 
+
     }
 
     // Event listeners for each gallery item
@@ -65,6 +116,9 @@ document.addEventListener("DOMContentLoaded", function () {
             isImageClicked = true; // Enable wheel navigation
             currentIndex = index; // Update current index
             updateViewer(currentIndex); // Update viewer with the selected image
+            console.log(createViewer())
+            createViewer();
+
 
         });
 
