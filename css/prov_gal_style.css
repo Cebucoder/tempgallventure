@@ -215,13 +215,11 @@ li {
     height: 100%;
     object-fit: contain;
     display: block;
-    background: #fff;
     max-width: max-content;
     max-width: -webkit-max-content;
     max-width: -moz-max-content;
     max-width: max-content;
     margin: 0 auto;
-    padding: 5px;
     filter: drop-shadow(5px 0 0 #fff) drop-shadow(-5px 0 0 #fff) drop-shadow(0 5px 0 #fff) drop-shadow(0 -5px 0 #fff);
 
 }
