@@ -7,6 +7,22 @@
 
 document.addEventListener("DOMContentLoaded", function () {
 
+
+
+    // Add the module script for modern browsers
+    const moduleScript = document.createElement('script');
+    moduleScript.type = 'module';
+    moduleScript.src = 'https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js';
+
+    // Add the fallback nomodule script for older browsers
+    const noModuleScript = document.createElement('script');
+    noModuleScript.setAttribute('nomodule', '');
+    noModuleScript.src = 'https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js';
+
+    // Append the scripts to the document head
+    document.body.appendChild(moduleScript);
+    document.body.appendChild(noModuleScript);
+
     const proweaverGalleryList = document.querySelectorAll('#proweaver_gallery_list img');
     const proweaverGalleryListClass = document.querySelectorAll('#proweaver_gallery_list li');
     let currentIndex = 0; // Ensure this is defined globally to track the current image
