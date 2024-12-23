@@ -80,7 +80,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     proweaverGalleryList.forEach((galleryItems, index) => {
-        console.log(index + 1)
         galleryItems.id = `galleryItems-${index + 1}`;//add id's on each img 
         galleryItems.classList = `gallImg`;//add id's on each img 
         let provGalleryCounter = document.getElementById('prov_total_gall_list');
@@ -132,7 +131,6 @@ document.addEventListener("DOMContentLoaded", function () {
             isImageClicked = true; // Enable wheel navigation
             currentIndex = index; // Update current index
             updateViewer(currentIndex); // Update viewer with the selected image
-            console.log(createViewer())
             createViewer();
 
 
@@ -148,6 +146,11 @@ document.addEventListener("DOMContentLoaded", function () {
         isImageClicked = true; // Enable wheel navigation
         currentIndex = (currentIndex > 0) ? currentIndex - 1 : proweaverGalleryList.length - 1; // Loop back to the last image
         updateViewer(currentIndex); // Update viewer with the new index
+        resetZoom(); // Reset zoom before switching images
+        viewer.css({
+            transform: "scale(1) translate(0px, 0px)", // Ensure transform resets
+            transition: "none"
+        });
     });
 
     // Next button functionality
@@ -156,6 +159,11 @@ document.addEventListener("DOMContentLoaded", function () {
         isImageClicked = true; // Enable wheel navigation
         currentIndex = (currentIndex < proweaverGalleryList.length - 1) ? currentIndex + 1 : 0; // Loop back to the first image
         updateViewer(currentIndex); // Update viewer with the new index
+        resetZoom(); // Reset zoom before switching images
+        viewer.css({
+            transform: "scale(1) translate(0px, 0px)", // Ensure transform resets
+            transition: "none"
+        });
     });
 
 
@@ -219,7 +227,6 @@ document.addEventListener("DOMContentLoaded", function () {
     $('#prov_gall_close').click(function () {
         $('.proweaver_gall_viewer_con').fadeOut();
         isImageClicked = false;
-        console.log('image reset');
         $('body').css('overflow', 'unset');
     })
 
@@ -289,76 +296,155 @@ document.addEventListener("DOMContentLoaded", function () {
         if (e.keyCode == '37') {
             currentIndex = (currentIndex > 0) ? currentIndex - 1 : proweaverGalleryList.length - 1; // Loop back to the last image
             updateViewer(currentIndex); // Update viewer with the new index
-            console.log("Left");
+            resetZoom(); // Reset zoom before switching images
+            viewer.css({
+                transform: "scale(1) translate(0px, 0px)", // Ensure transform resets
+                transition: "none"
+            });
         }
         else if (e.keyCode == '39') {
             currentIndex = (currentIndex < proweaverGalleryList.length - 1) ? currentIndex + 1 : 0; // Loop back to the first image
             updateViewer(currentIndex); // Update viewer with the new index
-            console.log("Right");
+            resetZoom(); // Reset zoom before switching images
+            viewer.css({
+                transform: "scale(1) translate(0px, 0px)", // Ensure transform resets
+                transition: "none"
+            });
         }
     }
 
-});
 
+    const viewer = $("#gallery_img_id_viewer");
+    let isZoomed = false, scale = 1;
+    let isDragging = false; // Tracks if dragging is active
+    let startX, startY, initialTranslateX = 0, initialTranslateY = 0;
 
-$(document).ready(function () {
-    const viewer = $('#gallery_img_id_viewer');
+    const zoomFunction = $(".zoom_function");
+    const zoomIcon = $(".zoom_plus"); // The zoom icon to toggle
 
-    let isZoomed = false;
-    let scale = 1;
-    let startX, startY, initialX, initialY;
+    function resetZoom() {
+        scale = 1;
+        isZoomed = false;
+        initialTranslateX = 0;
+        initialTranslateY = 0;
+        viewer.css({
+            transform: "scale(1) translate(0px, 0px)",
+            transition: "transform 0.4s ease-out"
+        });
+        viewer.css("cursor", "default");
+        zoomIcon.attr("name", "add-outline"); // Reset to zoom-in icon
+    }
 
-    // Function to toggle zoom and adjust image position based on cursor location
-    function toggleZoom(event) {
-        const viewerOffset = viewer.offset();
-        const mouseX = event.pageX - viewerOffset.left;
-        const mouseY = event.pageY - viewerOffset.top;
+    function toggleZoom(event, centerZoom = false) {
+        const viewerOffset = viewer.offset(),
+            viewerWidth = viewer.width(),
+            viewerHeight = viewer.height();
 
-        if (!isZoomed) {
-            scale = 2; // Set zoom level
+        let mouseX, mouseY;
+
+        if (centerZoom) {
+            // Use the center of the image as the zoom point
+            mouseX = viewerWidth / 2;
+            mouseY = viewerHeight / 2;
+        } else {
+            // Use mouse position relative to the image
+            mouseX = event.pageX - viewerOffset.left;
+            mouseY = event.pageY - viewerOffset.top;
+        }
+
+        if (isZoomed) {
+            resetZoom();
+        } else {
+            // Zoom in
+            scale = 2;
             isZoomed = true;
 
-            // Calculate the translation to center the zoom based on cursor position
-            const translateX = -((mouseX * (scale - 1)) / scale);
-            const translateY = -((mouseY * (scale - 1)) / scale);
+            const translateX = -(mouseX * (scale - 1) / scale),
+                translateY = -(mouseY * (scale - 1) / scale);
 
-            // Apply zoom and translation
+            initialTranslateX = translateX;
+            initialTranslateY = translateY;
+
             viewer.css({
-                transform: `scale(${scale}) `,
-                transition: 'transform 0.3s ease' // Smooth zoom transition
+                transform: `scale(${scale}) translate(${translateX}px, ${translateY}px)`,
+                transition: "transform 0.4s ease-out"
             });
 
-            // Enable dragging
-            viewer.on('mousedown', startDragging);
-            $(document).on('mouseup', stopDragging);
-            $(document).on('mousemove', dragImage);
+            viewer.css("cursor", "grab");
+            zoomIcon.attr("name", "remove-outline"); // Change to zoom-out icon
+        }
+
+    }
+
+    // Bind zoom functionality to the zoom button
+    zoomFunction.click(function (event) {
+        if (isZoomed) {
+            resetZoom(event);
+            viewer.css("cursor", "default");
+            zoomIcon.attr("name", "add-outline"); // Change to zoom-in icon
         } else {
-            scale = 1; // Reset scale
-            isZoomed = false;
-
-            // Reset image position and scale
+            // Zoom in
+            scale = 2;
+            isZoomed = true;
             viewer.css({
-                transform: 'scale(1) translate(0px, 0px)',
-                transition: 'transform 0.3s ease'
+                transform: `scale(${scale})`,
+                transition: "transform 0.4s ease-out"
             });
+            viewer.css("cursor", "grab");
+            zoomIcon.attr("name", "remove-outline"); // Change to zoom-out icon
+        }
+    });
+
+
+
+
+    function startDragging(event) {
+        if (isZoomed) {
+            event.preventDefault();
+            isDragging = true;
+            startX = event.clientX;
+            startY = event.clientY;
+            viewer.css("cursor", "grabbing");
         }
     }
 
-    // Zoom function on double click
-    viewer.on('dblclick', toggleZoom);
-
-    // Zoom function on button click
-    $('.zoom_function').click(toggleZoom);
-
-    function startDragging(event) {
-        if (!isZoomed) return;
-        event.preventDefault(); // Prevent default drag behavior
-        startX = event.clientX;
-        startY = event.clientY;
-
-        // Get initial positions
-        initialX = viewer.position().left;
-        initialY = viewer.position().top;
-
+    function stopDragging() {
+        if (isZoomed) {
+            isDragging = false;
+            viewer.css("cursor", "grab");
+        }
     }
+
+    function dragImage(event) {
+        if (isZoomed && isDragging) {
+            event.preventDefault();
+
+            const deltaX = (event.clientX - startX) / scale,
+                deltaY = (event.clientY - startY) / scale;
+
+            initialTranslateX += deltaX;
+            initialTranslateY += deltaY;
+
+            // Smoothly move the image
+            viewer.css({
+                transform: `scale(${scale}) translate(${initialTranslateX}px, ${initialTranslateY}px)`,
+                transition: "none" // Disable transition for dragging
+            });
+
+            // Update start positions for continuous dragging
+            startX = event.clientX;
+            startY = event.clientY;
+        }
+    }
+
+    // Bind events
+    viewer.on("dblclick", toggleZoom);
+    viewer.on("mousedown", startDragging);
+    $(document).on("mouseup", stopDragging);
+    $(document).on("mousemove", dragImage);
+
+
 });
+
+
+

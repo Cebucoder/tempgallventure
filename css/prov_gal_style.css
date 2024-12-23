@@ -94,6 +94,8 @@ li {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: relative;
+    z-index: 999;
 }
 
 .proweaver_header_right_con {
@@ -117,8 +119,12 @@ li {
 .prov_image_sizer {
     display: flex;
     height: 50px;
-    min-width: 100px;
-    display: none;
+    max-width: -webkit-max-content;
+    max-width: -moz-max-content;
+    max-width: max-content;
+
+
+    /* display: none; */
 }
 
 .zoom_function {
@@ -164,6 +170,7 @@ li {
     width: 100%;
     font-size: 16px;
     background: transparent;
+    display: none;
 }
 
 .prov_gall_close {
@@ -215,7 +222,6 @@ li {
     height: 100%;
     object-fit: contain;
     display: block;
-    max-width: max-content;
     max-width: -webkit-max-content;
     max-width: -moz-max-content;
     max-width: max-content;
