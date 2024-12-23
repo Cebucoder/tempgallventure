@@ -203,19 +203,11 @@ li {
 
 .proweaver_gall_img_viewer figure {
     max-width: none;
-    /* background: rgba(0, 0, 0, 0.5); */
     width: 100%;
     height: 100%;
-    /* min-height: 300px; */
     margin-top: -50px;
     padding: 40px 0;
-    /* display: grid;
-    place-items: center; */
-    /* position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%); */
-    /* overflow: hidden; */
+
 }
 
 .proweaver_gall_img_viewer figure img {
@@ -230,6 +222,7 @@ li {
     max-width: max-content;
     margin: 0 auto;
     padding: 5px;
+    filter: drop-shadow(5px 0 0 #fff) drop-shadow(-5px 0 0 #fff) drop-shadow(0 5px 0 #fff) drop-shadow(0 -5px 0 #fff);
 
 }
 
