@@ -84,6 +84,10 @@ document.addEventListener("DOMContentLoaded", function () {
         galleryItems.classList = `gallImg`;//add id's on each img 
         let provGalleryCounter = document.getElementById('prov_total_gall_list');
         provGalleryCounter.innerHTML = `${index + 1}`;
+        // Check if the loading attribute is missing, and add it
+        if (!galleryItems.hasAttribute("loading")) {
+            galleryItems.setAttribute("loading", "lazy");
+        }
     });
 
     $('.gallImg').each(function () {
@@ -212,7 +216,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.addEventListener('keydown', function (event) {
         if (event.key === 'Escape') {
             $('.proweaver_gall_viewer_con').fadeOut();
-            proweaverGalleryList.src = ''; // Optionally reset the viewer image
+            document.getElementById('gallery_img_id_viewer').src = '';
             $('body').css('overflow', 'scroll');
             proMinGallList.classList.remove('toggle_prov_min_gall_list');
             isImageClicked = false;
@@ -226,6 +230,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     $('#prov_gall_close').click(function () {
         $('.proweaver_gall_viewer_con').fadeOut();
+        document.getElementById('gallery_img_id_viewer').src = '';
         isImageClicked = false;
         $('body').css('overflow', 'unset');
     })
@@ -448,3 +453,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
+// $(document).ready(function () {
+//     // Select all images with the class 'blur-on-load'
+//     $(".blur-on-load").each(function () {
+//         const $img = $(this);
+
+//         // Wait for the image to fully load
+//         $img.on("load", function () {
+//             $img.addClass("loaded"); // Add the 'loaded' class to remove blur
+//         });
+
+//         // Trigger load event for cached images
+//         if ($img[0].complete) {
+//             $img.trigger("load");
+//         }
+//     });
+// });
