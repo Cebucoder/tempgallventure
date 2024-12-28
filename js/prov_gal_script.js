@@ -220,6 +220,7 @@ document.addEventListener("DOMContentLoaded", function () {
             $('body').css('overflow', 'scroll');
             proMinGallList.classList.remove('toggle_prov_min_gall_list');
             isImageClicked = false;
+            resetZoom();
         }
     });
 
@@ -233,6 +234,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById('gallery_img_id_viewer').src = '';
         isImageClicked = false;
         $('body').css('overflow', 'unset');
+        resetZoom();
     })
 
 
@@ -318,15 +320,16 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-
     const viewer = $("#gallery_img_id_viewer");
     let isZoomed = false, scale = 1;
     let isDragging = false; // Tracks if dragging is active
     let startX, startY, initialTranslateX = 0, initialTranslateY = 0;
+    let initialTouchDistance = 0; // To store the initial distance between two fingers for pinch-to-zoom
 
     const zoomFunction = $(".zoom_function");
     const zoomIcon = $(".zoom_plus"); // The zoom icon to toggle
 
+    // Function to reset zoom and position
     function resetZoom() {
         scale = 1;
         isZoomed = false;
@@ -340,6 +343,7 @@ document.addEventListener("DOMContentLoaded", function () {
         zoomIcon.attr("name", "add-outline"); // Reset to zoom-in icon
     }
 
+    // Toggle zoom on click of zoom button or double-click on image
     function toggleZoom(event, centerZoom = false) {
         const viewerOffset = viewer.offset(),
             viewerWidth = viewer.width(),
@@ -348,11 +352,9 @@ document.addEventListener("DOMContentLoaded", function () {
         let mouseX, mouseY;
 
         if (centerZoom) {
-            // Use the center of the image as the zoom point
             mouseX = viewerWidth / 2;
             mouseY = viewerHeight / 2;
         } else {
-            // Use mouse position relative to the image
             mouseX = event.pageX - viewerOffset.left;
             mouseY = event.pageY - viewerOffset.top;
         }
@@ -360,7 +362,6 @@ document.addEventListener("DOMContentLoaded", function () {
         if (isZoomed) {
             resetZoom();
         } else {
-            // Zoom in
             scale = 2;
             isZoomed = true;
 
@@ -378,7 +379,6 @@ document.addEventListener("DOMContentLoaded", function () {
             viewer.css("cursor", "grab");
             zoomIcon.attr("name", "remove-outline"); // Change to zoom-out icon
         }
-
     }
 
     // Bind zoom functionality to the zoom button
@@ -388,7 +388,6 @@ document.addEventListener("DOMContentLoaded", function () {
             viewer.css("cursor", "default");
             zoomIcon.attr("name", "add-outline"); // Change to zoom-in icon
         } else {
-            // Zoom in
             scale = 2;
             isZoomed = true;
             viewer.css({
@@ -400,16 +399,22 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-
-
-
+    // Handle mouse and touch dragging
     function startDragging(event) {
         if (isZoomed) {
-            event.preventDefault();
-            isDragging = true;
-            startX = event.clientX;
-            startY = event.clientY;
-            viewer.css("cursor", "grabbing");
+            if (event.originalEvent.touches && event.originalEvent.touches.length === 1) { // Check if exactly 1 finger is touching (mobile touch)
+                event.preventDefault();
+                isDragging = true;
+                startX = event.originalEvent.touches[0].clientX;
+                startY = event.originalEvent.touches[0].clientY;
+                viewer.css("cursor", "grabbing");
+            } else if (event.clientX && event.clientY) { // Mouse dragging for desktop
+                event.preventDefault();
+                isDragging = true;
+                startX = event.clientX;
+                startY = event.clientY;
+                viewer.css("cursor", "grabbing");
+            }
         }
     }
 
@@ -423,30 +428,84 @@ document.addEventListener("DOMContentLoaded", function () {
     function dragImage(event) {
         if (isZoomed && isDragging) {
             event.preventDefault();
+            let deltaX, deltaY;
 
-            const deltaX = (event.clientX - startX) / scale,
+            if (event.originalEvent.touches && event.originalEvent.touches.length === 1) { // Mobile touch dragging
+                deltaX = (event.originalEvent.touches[0].clientX - startX) / scale;
+                deltaY = (event.originalEvent.touches[0].clientY - startY) / scale;
+            } else if (event.clientX && event.clientY) { // Desktop mouse dragging
+                deltaX = (event.clientX - startX) / scale;
                 deltaY = (event.clientY - startY) / scale;
+            }
 
             initialTranslateX += deltaX;
             initialTranslateY += deltaY;
 
-            // Smoothly move the image
             viewer.css({
                 transform: `scale(${scale}) translate(${initialTranslateX}px, ${initialTranslateY}px)`,
                 transition: "none" // Disable transition for dragging
             });
 
-            // Update start positions for continuous dragging
-            startX = event.clientX;
-            startY = event.clientY;
+            startX = event.clientX || event.originalEvent.touches[0].clientX;
+            startY = event.clientY || event.originalEvent.touches[0].clientY;
         }
     }
 
-    // Bind events
+    // Pinch-to-zoom functionality for mobile
+    function handlePinchZoom(event) {
+        if (event.originalEvent.touches.length === 2) {
+            // Calculate the distance between the two fingers
+            const touch1 = event.originalEvent.touches[0];
+            const touch2 = event.originalEvent.touches[1];
+
+            const touchDistance = Math.sqrt(
+                Math.pow(touch2.clientX - touch1.clientX, 2) + Math.pow(touch2.clientY - touch1.clientY, 2)
+            );
+
+            if (initialTouchDistance === 0) {
+                initialTouchDistance = touchDistance;
+            }
+
+            // Calculate the scale factor based on distance change
+            const scaleChange = touchDistance / initialTouchDistance;
+
+            // Apply the new scale, but limit it to a maximum and minimum value
+            scale *= scaleChange;
+
+            if (scale < 1) scale = 1;
+            if (scale > 3) scale = 3;
+
+            if (scale === 1) {
+                resetZoom();
+            } else {
+                viewer.css({
+                    transform: `scale(${scale}) translate(${initialTranslateX}px, ${initialTranslateY}px)`,
+                    transition: "transform 0.1s ease-out"
+                });
+            }
+
+            initialTouchDistance = touchDistance; // Update the initial distance for the next move
+        }
+    }
+
+    // Bind events for mouse and touch
     viewer.on("dblclick", toggleZoom);
+
+    // Mouse events for desktop dragging
     viewer.on("mousedown", startDragging);
     $(document).on("mouseup", stopDragging);
     $(document).on("mousemove", dragImage);
+
+    // Touch events for mobile dragging and pinch zoom
+    viewer.on("touchstart", startDragging);
+    $(document).on("touchend", stopDragging);
+    $(document).on("touchmove", function (event) {
+        dragImage(event);
+        if (isZoomed) {
+            handlePinchZoom(event); // Allow pinch zoom if zoomed in
+        }
+    });
+
 
 
 });
