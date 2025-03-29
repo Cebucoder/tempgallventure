@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Add the module script for modern browsers
     const moduleScript = document.createElement('script');
     moduleScript.type = 'module';
-    moduleScript.src = 'https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js';
+    moduleScript.src = 'https://cdn.jsdelivr.net/npm/ionicons@latest/dist/ionicons/ionicons.esm.js';
 
     // Add the fallback nomodule script for older browsers
     const noModuleScript = document.createElement('script');
